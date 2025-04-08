@@ -36,11 +36,15 @@
             padding: 2px;
             border-radius: 5px;
         }
+        #tier_none {
+            border: 1px solid green;
+            min-height: 3em;
+        }
     </style>
 </head>
 <body>
     <div id="tiers"></div>
-    <div id="items_list"></div>
+    <div id="tier_none"></div>
 </body>
 
 <script>
@@ -58,7 +62,7 @@
             "desc": "Being intentional about my time and focus."
         }
     ]
-    createItems("items_list");
+    createItems("tier_none");
 
 
 
