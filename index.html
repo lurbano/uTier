@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tiers</title>
+    <style>
+        .tier {
+            background-color: yellow;
+            border: 1px solid black;
+            padding: 5px;
+        }
+
+        .tier:hover {
+            background-color: bisque;
+        }
+        .label {
+            font-size: large;
+            background-color: red;
+            width: 3em;
+        }
+
+        .tierBox {
+            display: grid;
+            grid-template-columns: 3em 5fr;
+            background-color: green;
+            border: 1px solid black;
+            padding: 5px;
+            height: 4em;
+        }
+
+        .itemBox {
+            border: 3px outset grey;
+            width: fit-content;
+            margin: 3px;
+            padding: 2px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div id="tiers"></div>
+    <div id="items_list"></div>
+</body>
+
+<script>
+    tiers = ["D", "C", "B", "A", "S"];
+
+    createTiers("tiers");
+
+    items = [
+        {
+            "name": "Authenticity",
+            "desc": "Being myself. Being genuine. Knowing who I am."
+        },
+        {
+            "name": "Balance",
+            "desc": "Being intentional about my time and focus."
+        }
+    ]
+    createItems("items_list");
+
+
+
+    function createItems(divID){
+        let div = document.getElementById(divID);
+        for (let item of items){
+            itemBox = document.createElement("div");
+            itemBox.classList.add("itemBox");
+            itemBox.innerHTML = item["name"];
+            itemBox.draggable = true;
+            itemBox.id = `item_${item['name']}`;
+            div.appendChild(itemBox);
+
+        }
+    }
+
+    function createTiers(divID){
+        let div = document.getElementById(divID);
+        for ( let tier of tiers.reverse()){
+            boxDiv = document.createElement("div");
+            boxDiv.classList.add("tierBox");
+            div.appendChild(boxDiv);
+
+            labelDiv = document.createElement("div");
+            labelDiv.classList.add("label");
+            labelDiv.innerHTML = tier;
+            boxDiv.appendChild(labelDiv);
+
+            tDiv = document.createElement("div");
+            tDiv.id = `tier_${tier}`;
+            tDiv.classList.add("tier");
+            boxDiv.appendChild(tDiv);
+
+            
+        }
+    }
+
+    document.addEventListener("dragstart", function(ev){
+        // Add the target element's id to the data transfer object
+        console.log("target", ev.target);
+        ev.dataTransfer.setData("application/my-app", ev.target.id);
+        ev.dataTransfer.effectAllowed = "move";
+        //let student = ev.target.id.split("_")[0];
+        
+        // setClassBackgroundColor(student, 'tomato');
+    })
+
+    document.addEventListener("drop", function (ev) {
+        ev.preventDefault();
+
+        targetData = ev.target.id.split("_");
+        
+        if ( targetData[0] === "tier"){
+            console.log('targetData:', targetData);
+            const tagID = ev.dataTransfer.getData("application/my-app");
+            ev.target.appendChild(document.getElementById(tagID));
+            
+        }
+
+    });
+
+    document.addEventListener("dragover", function (ev) {
+        ev.preventDefault();
+        ev.dataTransfer.dropEffect = "move";
+    })
+
+
+</script>
+</html>
