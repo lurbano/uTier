@@ -45,6 +45,10 @@ async def main():
     app = web.Application()
     app.router.add_get('/', handle)
     app.router.add_post("/", handlePost)
+
+    # Serve static files from the "static" directory
+    static_path = os.path.join(os.path.dirname(__file__), 'static')
+    app.router.add_static('/static/', path=static_path, name='static')
     
     runner = web.AppRunner(app)
     await runner.setup()
