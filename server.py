@@ -6,8 +6,8 @@ import json
 from uAio import *
 
 # database
-from baseStationDB import *
-db = baseStationDB()
+from tierDB import *
+db = tierDB()
 
 dir_path = os.path.dirname(os.path.abspath(__file__))
 
@@ -28,6 +28,18 @@ async def handlePost(request):
         rData['item'] = "time"
         rData['status'] = now.ctime() # a string representing the current time
 
+    if data['action'] == 'updateTier':
+        # register device with the base station
+        info = data['value']
+        print("Updating: ", info)
+        db.update(
+            username=info['username'], 
+            item=info['item'], 
+            itemDescription=info['itemDescription'],
+            tier=info['tier'] 
+        )
+        rData['item'] = 'updateTier'
+        rData['status'] = 'updated'
 
 async def main():
     app = web.Application()

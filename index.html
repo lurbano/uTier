@@ -49,6 +49,9 @@
     </style>
 </head>
 <body>
+    <div>
+        Enter Name: <input type="text" value="Doc" id="username">
+    </div>
     <div id="tiers"></div>
     <div id="tier_none"></div>
 </body>
@@ -199,6 +202,13 @@
             console.log('targetData:', targetData);
             const tagID = ev.dataTransfer.getData("application/my-app");
             ev.target.appendChild(document.getElementById(tagID));
+
+            let value = [];
+            value["username"] = username.value;
+            value["item"] = None; //this to work on
+            value["itemDescription"] = "No desc."
+            value['tier'] = targetData[1];
+            sendRequest("/", "updateTier");
             
         }
 
@@ -209,6 +219,40 @@
         ev.dataTransfer.dropEffect = "move";
     })
 
+
+    function sendRequest(target, action, value="") {
+        console.log("making request")
+        let xR = new XMLHttpRequest();
+        xR.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                
+                console.log("Server Response:", this.responseText);
+                data = JSON.parse(this.responseText);
+                console.log("data:", data);
+                console.log("data['item']:", data["item"]);
+                
+                //Handle responses
+                if (data["item"] == "time") {
+                    console.log("Got the time: ", data["status"]);
+                    timeSlot.innerText = data["status"];
+                }
+                if (data["item"] == "photoResistor") {
+                    console.log("Light Level: ", data["status"]);
+                    MkspPhotoResistor.innerText = data["status"];
+                }
+                if (data["item"] == "getDeviceTable") {
+                    // deviceTable.innerHTML = data['status'];
+                    insertDeviceTable(data['status'])
+                }
+            }
+        }
+        let data = {};
+        data["action"] = action;
+        data["value"] = value;
+        console.log("data:", data);
+        xR.open("POST", target, true);
+        xR.send(JSON.stringify(data));
+    }
 
 </script>
 
