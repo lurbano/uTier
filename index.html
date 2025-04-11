@@ -147,6 +147,7 @@
         }
     ]
     createItems("tier_none");
+    activeItem = undefined;
 
 
 
@@ -186,7 +187,8 @@
 
     document.addEventListener("dragstart", function(ev){
         // Add the target element's id to the data transfer object
-        console.log("target", ev.target);
+        // console.log("target 1:", ev.target);
+        activeItem = ev.target.id.split('_')[1];
         ev.dataTransfer.setData("application/my-app", ev.target.id);
         ev.dataTransfer.effectAllowed = "move";
         //let student = ev.target.id.split("_")[0];
@@ -196,6 +198,7 @@
 
     document.addEventListener("drop", function (ev) {
         ev.preventDefault();
+        console.log("activeItem:", activeItem);
 
         targetData = ev.target.id.split("_");
         
@@ -204,12 +207,13 @@
             const tagID = ev.dataTransfer.getData("application/my-app");
             ev.target.appendChild(document.getElementById(tagID));
 
-            let value = [];
-            value["username"] = username.value;
-            value["item"] = None; //this to work on
-            value["itemDescription"] = "No desc."
-            value['tier'] = targetData[1];
-            sendRequest("/", "updateTier");
+            let data = {};
+            data["username"] = username.value;
+            data["item"] = activeItem; 
+            data["itemDescription"] = "No desc."
+            data['tier'] = targetData[1];
+            // console.log("drop data:", data);
+            sendRequest("/", "updateTier", data);
             
         }
 

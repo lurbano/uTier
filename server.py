@@ -41,6 +41,10 @@ async def handlePost(request):
         rData['item'] = 'updateTier'
         rData['status'] = 'updated'
 
+    response = json.dumps(rData)
+    print("Response: ", response)
+    return web.Response(text=response, content_type='text/html')
+
 async def main():
     app = web.Application()
     app.router.add_get('/', handle)
