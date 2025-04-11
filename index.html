@@ -12,7 +12,11 @@
         .tier {
             background-color: yellow;
             border: 1px solid black;
-            padding: 5px;
+            padding-bottom: 2em;
+            display: flex;
+            width: 100%;
+            min-height: 2em;
+            height: fit-content;
         }
 
         .tier:hover {
@@ -35,17 +39,23 @@
 
         .itemBox {
             border: 3px outset grey;
-            width: fit-content;
+            width: 10em;
             margin: 3px;
             padding: 2px;
             border-radius: 5px;
+            text-align: center;
+            height: 2.5em;
+            /* line-height: 2.5em; */
+            display: flex;
         }
         #tier_none {
             border: 1px solid green;
             min-height: 3em;
-            max-height: 10em;
-            display: grid;
-            grid-template-columns: auto auto auto auto auto;
+            /* max-height: 10em; */
+            width: 100%;
+            display: flex;
+            /* display: grid;
+            grid-template-columns: auto auto auto auto auto; */
         }
     </style>
 </head>
