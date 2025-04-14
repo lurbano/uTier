@@ -50,6 +50,11 @@ class tierDB:
         result = self.activeDB.search(q[param] == value)
         return result
     
+    def countTier(self, item="", tier="A"):
+        q = Query()
+        result = self.activeDB.search((q["item"] == item) & (q["tier"] == tier))
+        return len(result)
+    
     def removeAllEntriesByUser(self, username): #untested
         Line = Query()
         self.activeDB.remove(Line.username == username)
