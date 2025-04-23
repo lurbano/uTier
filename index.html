@@ -66,6 +66,7 @@
     </div>
     <div id="tiers"></div>
     <div id="tier_none"></div>
+    <div id="tier_desc"></div>
 </body>
 
 
@@ -102,6 +103,10 @@
             itemBox.draggable = true;
             itemBox.id = `item_${item['name']}`;
             div.appendChild(itemBox);
+
+            itemBox.addEventListener("mouseover", function(){
+                tier_desc.innerHTML = item["desc"];
+            })
 
         }
     }
