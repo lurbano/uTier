@@ -9,8 +9,8 @@ print('path:', dir_path)
 db_path = dir_path + '/db/'
 
 class tierDB:
-    def __init__(self):
-        self.activeDB = TinyDB(db_path+'activeDB.json')
+    def __init__(self, fname = 'activeDB.json'):
+        self.activeDB = TinyDB(db_path+fname)
 
     def insert(self, 
                username="", 
